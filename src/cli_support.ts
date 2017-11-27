@@ -17,6 +17,12 @@ export function pathToModuleName(context: string, fileName: string): string {
     // Resolve the path against the dirname of the current module.
     fileName = path.join(path.dirname(context), fileName);
   }
+
+  // Make paths relative to CWD
+  if (fileName.indexOf(process.cwd()) === 0) {
+    fileName = fileName.slice(process.cwd().length + 1);
+  }
+
   // Replace characters not supported by goog.module.
   const moduleName =
       fileName.replace(/\/|\\/g, '.').replace(/^[^a-zA-Z_$]/, '_').replace(/[^a-zA-Z0-9._$]/g, '_');

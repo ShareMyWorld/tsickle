@@ -128,6 +128,9 @@ export function toClosureJS(
   const program = ts.createProgram(fileNames, options, compilerHost);
   const transformerHost: tsickle.TsickleHost = {
     shouldSkipTsickleProcessing: (fileName: string) => {
+      if (fileName.indexOf(process.cwd()) === 0) {
+        fileName = fileName.slice(process.cwd().length + 1);
+      }
       return fileNames.indexOf(fileName) === -1;
     },
     shouldIgnoreWarningsForPath: (fileName: string) => false,
